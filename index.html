@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#070a09">
-  <title>DarkX26 // Enigma 01</title>
+  <link rel="icon" type="image/png" href="DarkX26%20Logo.png">
+  <title>DarkX26</title>
   <style>
     :root {
       --bg: #070a09;
@@ -59,12 +60,11 @@
     }
 
     .brand-mark {
-      display: grid;
-      place-items: center;
+      display: block;
       width: 27px;
       height: 27px;
       border: 1px solid var(--green);
-      font-size: 0.77rem;
+      object-fit: cover;
       box-shadow: 0 0 14px rgba(92, 255, 145, 0.12);
     }
 
@@ -267,7 +267,7 @@
 <body>
   <div class="shell">
     <header class="topbar">
-      <div class="brand"><span class="brand-mark">D</span> DARKX26</div>
+      <div class="brand"><img class="brand-mark" src="DarkX26%20Logo.png" alt="Logo DarkX26"> DARKX26</div>
       <div class="phase" id="phase-label"></div>
     </header>
 
@@ -293,7 +293,7 @@
             <button class="text-button" id="hint-button" type="button">[ pedir dica ]</button>
           </div>
           <p class="feedback" id="feedback" role="status" aria-live="polite"></p>
-          <div class="status-line"><span>status: <strong id="status">aguardando entrada</strong></span><span>tentativas: <strong id="attempts">0</strong></span><span id="history" hidden>fase 01: 0 | fase 02: 0</span></div>
+          <div class="status-line"><span>status: <strong id="status">aguardando entrada</strong></span><span>tentativas: <strong id="attempts">0</strong></span><span id="history" hidden>fase 01: 0 | fase 02: 0 | fase 03: 0 | fase 04: 0</span></div>
         </div>
       </section>
     </main>
@@ -314,7 +314,7 @@
     const prompt = document.querySelector('#prompt');
     let currentPhase = 1;
     let isTransitioning = false;
-    const attemptsByPhase = { 1: 0, 2: 0 };
+    const attemptsByPhase = { 1: 0, 2: 0, 3: 0, 4: 0 };
 
     function showFeedback(message, type = '') {
       feedback.textContent = message;
@@ -323,7 +323,7 @@
 
     function updateAttempts() {
       attemptsLabel.textContent = attemptsByPhase[currentPhase];
-      historyLabel.textContent = `fase 01: ${attemptsByPhase[1]} | fase 02: ${attemptsByPhase[2]}`;
+      historyLabel.textContent = `fase 01: ${attemptsByPhase[1]} | fase 02: ${attemptsByPhase[2]} | fase 03: ${attemptsByPhase[3]} | fase 04: ${attemptsByPhase[4]}`;
     }
 
     function loadPhase(phaseNumber, announce = false) {
@@ -361,13 +361,13 @@
       if (answer === expectedAnswer) {
         status.textContent = 'acesso liberado';
         showFeedback('>> resposta correta. Acesso liberado.', 'success');
-        if (currentPhase === 1) {
+        if (currentPhase < 4) {
           isTransitioning = true;
           answerInput.disabled = true;
           answerForm.querySelector('button[type="submit"]').disabled = true;
-          setTimeout(() => loadPhase(2, true), 2000);
+          setTimeout(() => loadPhase(currentPhase + 1, true), 2000);
         } else {
-            historyLabel.hidden = false;
+          historyLabel.hidden = false;
           answerInput.blur();
         }
         return;
