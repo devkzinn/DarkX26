@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#070a09">
+  <link rel="icon" type="image/png" href="DarkX26%20Logo.png">
+  <title>DarkX26</title>
+  <style>
+    :root {
+      --bg: #070a09;
+      --panel: #0b100e;
+      --panel-light: #111814;
+      --line: #26352c;
+      --muted: #77877c;
+      --text: #d9e4dc;
+      --green: #5cff91;
+      --green-soft: #b4ffca;
+      --danger: #ff6b6b;
+      --shadow: rgba(0, 0, 0, 0.35);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        linear-gradient(rgba(92, 255, 145, 0.028) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(92, 255, 145, 0.028) 1px, transparent 1px),
+        radial-gradient(circle at 50% -10%, #18261c 0, var(--bg) 48%);
+      background-size: 34px 34px, 34px 34px, auto;
+      font-family: Consolas, "Liberation Mono", monospace;
+    }
+
+    .shell {
+      width: min(920px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 40px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 0 4px 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--green);
+      font-size: 0.86rem;
+      letter-spacing: 0.12em;
+      font-weight: 700;
+    }
+
+    .brand-mark {
+      display: block;
+      width: 27px;
+      height: 27px;
+      border: 1px solid var(--green);
+      object-fit: cover;
+      box-shadow: 0 0 14px rgba(92, 255, 145, 0.12);
+    }
+
+    .phase {
+      color: var(--muted);
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    main { padding-top: 64px; }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--green);
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: ">";
+      color: var(--green-soft);
+      font-size: 1.1rem;
+    }
+
+    h1 {
+      max-width: 720px;
+      margin: 20px 0 15px;
+      color: #f1f8f3;
+      font-family: "Courier New", monospace;
+      font-size: clamp(2rem, 6vw, 4.9rem);
+      font-weight: 700;
+      line-height: 0.98;
+      letter-spacing: 0.04em;
+      overflow-wrap: anywhere;
+      text-shadow: 0 0 26px rgba(92, 255, 145, 0.16);
+    }
+
+    .phase-3-large {
+      max-width: 100% !important;
+      font-size: clamp(1.7rem, 4vw, 4.4rem) !important;
+      line-height: 1.1 !important;
+      letter-spacing: 0.01em !important;
+    }
+
+    .intro {
+      max-width: 560px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.8;
+    }
+
+    .terminal {
+      margin-top: 48px;
+      border: 1px solid var(--line);
+      background: rgba(11, 16, 14, 0.86);
+      box-shadow: 0 20px 60px var(--shadow);
+    }
+
+    .terminal-bar {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 40px;
+      padding: 0 16px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(17, 24, 20, 0.65);
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--line);
+    }
+
+    .dot.active { background: var(--green); box-shadow: 0 0 9px var(--green); }
+
+    .terminal-title {
+      margin-left: 8px;
+      color: var(--muted);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+    }
+
+    .terminal-body { padding: clamp(22px, 5vw, 42px); }
+
+    .prompt {
+      margin-bottom: 26px;
+      color: var(--green-soft);
+      font-size: 0.82rem;
+      line-height: 1.7;
+    }
+
+    .prompt span { color: var(--muted); }
+
+    .form-label {
+      display: block;
+      margin-bottom: 9px;
+      color: var(--muted);
+      font-size: 0.72rem;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    .answer-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    input {
+      min-width: 0;
+      flex: 1;
+      border: 1px solid var(--line);
+      border-radius: 0;
+      outline: 0;
+      padding: 14px 15px;
+      color: var(--text);
+      background: #080c0a;
+      font: inherit;
+      font-size: 0.9rem;
+      transition: border-color 160ms ease, box-shadow 160ms ease;
+    }
+
+    input::placeholder { color: #4e5d53; }
+    input:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(92, 255, 145, 0.09); }
+
+    button {
+      border: 1px solid var(--green);
+      border-radius: 0;
+      padding: 0 18px;
+      color: #07100a;
+      background: var(--green);
+      cursor: pointer;
+      font: inherit;
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: background 160ms ease, color 160ms ease, box-shadow 160ms ease;
+    }
+
+    button:hover, button:focus-visible { background: transparent; color: var(--green); box-shadow: 0 0 18px rgba(92, 255, 145, 0.16); outline: 0; }
+
+    .actions {
+      display: flex;
+      gap: 22px;
+      margin-top: 18px;
+    }
+
+    .text-button {
+      border: 0;
+      padding: 0;
+      color: var(--muted);
+      background: transparent;
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      text-transform: none;
+    }
+
+    .text-button:hover, .text-button:focus-visible { color: var(--green-soft); box-shadow: none; }
+
+    .feedback {
+      min-height: 26px;
+      margin: 22px 0 0;
+      color: var(--muted);
+      font-size: 0.78rem;
+      line-height: 1.6;
+    }
+
+    .feedback.success { color: var(--green); }
+    .feedback.error { color: var(--danger); }
+
+.riddle-visual {
+      margin-top: 18px;
+      width: min(100%, 360px);
+      border: 1px solid var(--line);
+      background: rgba(12, 17, 16, 0.9);
+      box-shadow: 0 0 24px rgba(92, 255, 145, 0.08);
+      overflow: hidden;
+      border-radius: 12px;
+    }
+
+    .riddle-visual img {
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+
+    .hidden { display: none; }
+
+    .status-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      margin-top: 22px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+      color: #536258;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .status-line strong { color: var(--green); font-weight: 400; }
+
+    @media (max-width: 560px) {
+      .shell { width: min(100% - 22px, 920px); padding-top: 17px; }
+      .topbar { align-items: flex-start; }
+      .phase { text-align: right; }
+      main { padding-top: 48px; }
+      .answer-row { display: grid; grid-template-columns: 1fr; }
+      button { min-height: 46px; }
+      .status-line { flex-direction: column; gap: 7px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand"><img class="brand-mark" src="DarkX26%20Logo.png" alt="Logo DarkX26"> DARKX26</div>
+      <div class="phase" id="phase-label"></div>
+    </header>
+
+    <main>
+      <div class="eyebrow" id="eyebrow"></div>
+      <h1 id="riddle"></h1>
+      <div class="riddle-visual hidden" id="riddle-visual" aria-live="polite">
+        <img id="phase-image" src="" alt="Pista do quinto contato">
+      </div>
+
+      <section class="terminal" aria-label="Área de resposta do enigma">
+        <div class="terminal-bar">
+          <span class="dot active"></span><span class="dot"></span><span class="dot"></span>
+          <span class="terminal-title">challenge.input</span>
+        </div>
+        <div class="terminal-body">
+          <div class="prompt" id="prompt"></div>
+          <form id="answer-form">
+            <label class="form-label" for="answer">sua resposta</label>
+            <div class="answer-row">
+              <input id="answer" name="answer" type="text" autocomplete="off" spellcheck="false" placeholder="digite a palavra aqui..." aria-describedby="feedback">
+              <button type="submit">Enviar</button>
+            </div>
+          </form>
+          <div class="actions">
+            <button class="text-button" id="hint-button" type="button">[ pedir dica ]</button>
+          </div>
+          <p class="feedback" id="feedback" role="status" aria-live="polite"></p>
+          <div class="status-line"><span>status: <strong id="status">aguardando entrada</strong></span><span>tentativas: <strong id="attempts">0</strong></span><span id="history" hidden>fase 01: 0 | fase 02: 0 | fase 03: 0 | fase 04: 0</span></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="Fases.js"></script>
+  <script>
+    const answerForm = document.querySelector('#answer-form');
+    const answerInput = document.querySelector('#answer');
+    const feedback = document.querySelector('#feedback');
+    const status = document.querySelector('#status');
+    const attemptsLabel = document.querySelector('#attempts');
+    const historyLabel = document.querySelector('#history');
+    const hintButton = document.querySelector('#hint-button');
+    const phaseLabel = document.querySelector('#phase-label');
+    const eyebrow = document.querySelector('#eyebrow');
+    const riddle = document.querySelector('#riddle');
+    const riddleVisual = document.querySelector('#riddle-visual');
+    const phaseImage = document.querySelector('#phase-image');
+    const prompt = document.querySelector('#prompt');
+    let currentPhase = 1;
+    let isTransitioning = false;
+    const attemptsByPhase = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+
+    function showFeedback(message, type = '') {
+      feedback.textContent = message;
+      feedback.className = `feedback ${type}`;
+    }
+
+    function updateAttempts() {
+      attemptsLabel.textContent = attemptsByPhase[currentPhase];
+      historyLabel.textContent = `fase 01: ${attemptsByPhase[1]} | fase 02: ${attemptsByPhase[2]} | fase 03: ${attemptsByPhase[3]} | fase 04: ${attemptsByPhase[4]} | fase 05: ${attemptsByPhase[5]}`;
+    }
+
+    function loadPhase(phaseNumber, announce = false) {
+      const phase = window.phaseData[phaseNumber];
+      currentPhase = phaseNumber;
+      attemptsLabel.textContent = '0';
+      status.textContent = 'aguardando entrada';
+      historyLabel.hidden = true;
+      phaseLabel.textContent = phase.label;
+      eyebrow.textContent = phase.eyebrow;
+      riddle.textContent = phase.riddle;
+      riddle.classList.toggle('phase-3-large', phaseNumber === 3);
+
+      if (phase.image) {
+        riddleVisual.classList.remove('hidden');
+        phaseImage.src = phase.image;
+        phaseImage.alt = phase.imageAlt || 'Pista do quinto contato';
+      } else {
+        riddleVisual.classList.add('hidden');
+        phaseImage.src = '';
+        phaseImage.alt = '';
+      }
+
+      prompt.innerHTML = `$ ${phase.command} --entrada <span>${phase.commandHint}</span>`;
+      hintButton.textContent = '[ pedir dica ]';
+      answerInput.value = '';
+      answerInput.removeAttribute('disabled');
+      answerForm.querySelector('button[type="submit"]').removeAttribute('disabled');
+      updateAttempts();
+      if (announce) showFeedback(`>> fase ${String(phaseNumber).padStart(2, '0')} carregada. Novo enigma desbloqueado.`, 'success');
+      else showFeedback('');
+      isTransitioning = false;
+      answerInput.focus();
+    }
+
+    answerForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      if (isTransitioning) return;
+
+      attemptsByPhase[currentPhase] += 1;
+      updateAttempts();
+      const answer = answerInput.value.trim().toLocaleLowerCase('pt-BR');
+      answerInput.value = '';
+
+      const expectedAnswer = window.phaseData[currentPhase].answer;
+
+      if (answer === expectedAnswer) {
+        status.textContent = 'acesso liberado';
+        showFeedback('>> resposta correta. Acesso liberado.', 'success');
+
+        if (currentPhase < 5) {
+          isTransitioning = true;
+          answerInput.disabled = true;
+          answerForm.querySelector('button[type="submit"]').disabled = true;
+          setTimeout(() => loadPhase(currentPhase + 1, true), 2000);
+        } else {
+          historyLabel.hidden = false;
+          answerInput.blur();
+        }
+        return;
+      }
+
+      status.textContent = 'acesso negado';
+      showFeedback('>> resposta incorreta. O padrão ainda está diante de você.', 'error');
+    });
+
+    hintButton.addEventListener('click', () => {
+      const hint = `>> dica: ${window.phaseData[currentPhase].hint}`;
+      showFeedback(hint, 'success');
+      answerInput.focus();
+    });
+
+    loadPhase(1);
+  </script>
+</body>
+</html>
