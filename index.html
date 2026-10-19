@@ -260,6 +260,21 @@
       object-fit: cover;
     }
 
+    .riddle-audio {
+      margin-top: 18px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      background: rgba(12, 17, 16, 0.9);
+    }
+
+    .riddle-audio p {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    .riddle-audio audio { width: 100%; }
+
     .hidden { display: none; }
 
     .status-line {
@@ -301,6 +316,10 @@
       <div class="riddle-visual hidden" id="riddle-visual" aria-live="polite">
         <img id="phase-image" src="" alt="Pista do quinto contato">
       </div>
+      <div class="riddle-audio hidden" id="riddle-audio-container">
+        <p>Pista em código Morse — ouça o áudio.</p>
+        <audio id="phase-audio" controls preload="metadata">Seu navegador não suporta áudio.</audio>
+      </div>
 
       <section class="terminal" aria-label="Área de resposta do enigma">
         <div class="terminal-bar">
@@ -320,7 +339,7 @@
             <button class="text-button" id="hint-button" type="button">[ pedir dica ]</button>
           </div>
           <p class="feedback" id="feedback" role="status" aria-live="polite"></p>
-          <div class="status-line"><span>status: <strong id="status">aguardando entrada</strong></span><span>tentativas: <strong id="attempts">0</strong></span><span id="history" hidden>fase 01: 0 | fase 02: 0 | fase 03: 0 | fase 04: 0</span></div>
+          <div class="status-line"><span>status: <strong id="status">aguardando entrada</strong></span><span>tentativas: <strong id="attempts">0</strong></span><span id="history" hidden>fase 01: 0 | fase 02: 0 | fase 03: 0 | fase 04: 0 | fase 05: 0 | fase 06: 0</span></div>
         </div>
       </section>
     </main>
@@ -340,10 +359,17 @@
     const riddle = document.querySelector('#riddle');
     const riddleVisual = document.querySelector('#riddle-visual');
     const phaseImage = document.querySelector('#phase-image');
+    const riddleAudioContainer = document.querySelector('#riddle-audio-container');
+    const phaseAudio = document.querySelector('#phase-audio');
     const prompt = document.querySelector('#prompt');
+    const phaseNumbers = Object.keys(window.phaseData).map(Number).sort((a, b) => a - b);
     let currentPhase = 1;
     let isTransitioning = false;
-    const attemptsByPhase = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+    const attemptsByPhase = Object.fromEntries(phaseNumbers.map((phaseNumber) => [phaseNumber, 0]));
+
+    function normalizeAnswer(value) {
+      return value.trim().toLocaleLowerCase('pt-BR').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    }
 
     function showFeedback(message, type = '') {
       feedback.textContent = message;
@@ -352,7 +378,9 @@
 
     function updateAttempts() {
       attemptsLabel.textContent = attemptsByPhase[currentPhase];
-      historyLabel.textContent = `fase 01: ${attemptsByPhase[1]} | fase 02: ${attemptsByPhase[2]} | fase 03: ${attemptsByPhase[3]} | fase 04: ${attemptsByPhase[4]} | fase 05: ${attemptsByPhase[5]}`;
+      historyLabel.textContent = phaseNumbers
+        .map((phaseNumber) => `fase ${String(phaseNumber).padStart(2, '0')}: ${attemptsByPhase[phaseNumber]}`)
+        .join(' | ');
     }
 
     function loadPhase(phaseNumber, announce = false) {
@@ -376,6 +404,17 @@
         phaseImage.alt = '';
       }
 
+      phaseAudio.pause();
+      phaseAudio.removeAttribute('src');
+      phaseAudio.load();
+      if (phase.audio) {
+        riddleAudioContainer.classList.remove('hidden');
+        phaseAudio.src = phase.audio;
+        phaseAudio.load();
+      } else {
+        riddleAudioContainer.classList.add('hidden');
+      }
+
       prompt.innerHTML = `$ ${phase.command} --entrada <span>${phase.commandHint}</span>`;
       hintButton.textContent = '[ pedir dica ]';
       answerInput.value = '';
@@ -394,20 +433,22 @@
 
       attemptsByPhase[currentPhase] += 1;
       updateAttempts();
-      const answer = answerInput.value.trim().toLocaleLowerCase('pt-BR');
+      const answer = normalizeAnswer(answerInput.value);
       answerInput.value = '';
 
       const expectedAnswer = window.phaseData[currentPhase].answer;
 
-      if (answer === expectedAnswer) {
+      if (answer === normalizeAnswer(expectedAnswer)) {
         status.textContent = 'acesso liberado';
         showFeedback('>> resposta correta. Acesso liberado.', 'success');
 
-        if (currentPhase < 5) {
+        const currentPhaseIndex = phaseNumbers.indexOf(currentPhase);
+        const nextPhase = phaseNumbers[currentPhaseIndex + 1];
+        if (nextPhase !== undefined) {
           isTransitioning = true;
           answerInput.disabled = true;
           answerForm.querySelector('button[type="submit"]').disabled = true;
-          setTimeout(() => loadPhase(currentPhase + 1, true), 2000);
+          setTimeout(() => loadPhase(nextPhase, true), 2000);
         } else {
           historyLabel.hidden = false;
           answerInput.blur();
