@@ -45,5 +45,15 @@ window.phaseData = {
 		commandHint: 'acesso concedido somente com a palavra original',
 		answer: 'cercada',
 		hint: 'não é exatamente o que você pensa. talvez... ada?'
+	},
+	6: {
+		label: 'arquivo // 06 de 26',
+		eyebrow: 'sexto contato',
+		riddle: '',
+		audio: 'audios/ganancia_morse.wav',
+		command: 'decodificar',
+		commandHint: 'acesso concedido somente com a palavra original',
+		answer: 'ganância',
+		hint: 'ouça os sinais.'
 	}
 };
