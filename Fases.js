@@ -55,5 +55,14 @@ window.phaseData = {
 		commandHint: 'acesso concedido somente com a palavra original',
 		answer: 'ganância',
 		hint: 'ouça os sinais.'
+	},
+	7: {
+		label: 'arquivo // 07 de 26',
+		eyebrow: 'sétimo contato',
+		riddle: 'https://darkx26.netlify.app/aicneloiv.html',
+		command: 'decodificar',
+		commandHint: 'acesso concedido somente com a palavra original',
+		answer: 'violência',
+		hint: 'um link esconde muitas coisas.'
 	}
 };
