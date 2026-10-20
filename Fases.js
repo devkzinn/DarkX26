@@ -39,7 +39,7 @@ window.phaseData = {
 		label: 'arquivo // 05 de 26',
 		eyebrow: 'quinto contato',
 		riddle: '',
-		image: 'imgs/.trashed-1791826849-foto da cerca.jpg',
+		image: 'imgs/foto-da-cerca.jpg',
 		imageAlt: 'Pista do quinto contato mostrando a cerca',
 		command: 'decodificar',
 		commandHint: 'acesso concedido somente com a palavra original',
