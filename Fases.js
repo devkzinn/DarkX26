@@ -60,6 +60,7 @@ window.phaseData = {
 		label: 'arquivo // 07 de 26',
 		eyebrow: 'sétimo contato',
 		riddle: 'https://darkx26.netlify.app/aicneloiv.html',
+		riddleHref: 'aicneloiv.html',
 		command: 'decodificar',
 		commandHint: 'acesso concedido somente com a palavra original',
 		answer: 'violência',
@@ -84,5 +85,15 @@ window.phaseData = {
 		commandHint: 'acesso concedido somente com a palavra original',
 		answer: 'guerra',
 		hint: 'pode ser númerada tambem.'
+	},
+	10: {
+		label: 'arquivo // 10 de 26',
+		eyebrow: 'décimo contato',
+		riddle: 'https://darkx26.netlify.app/decimocontato.html',
+		riddleHref: 'decimocontato.html',
+		command: 'decodificar',
+		commandHint: 'acesso concedido somente com a palavra original',
+		answer: 'fome',
+		hint: 'sequência no oitavo contato.'
 	}
 };
