@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#070a09">
-  <link rel="icon" type="image/png" href="DarkX26%20Logo.png">
+  <link rel="icon" type="image/png" href=".trashed-1791826850-DarkX26%20Logo.png">
   <title>DarkX26</title>
   <style>
     :root {
@@ -111,6 +111,18 @@
       font-size: clamp(1.7rem, 4vw, 4.4rem) !important;
       line-height: 1.1 !important;
       letter-spacing: 0.01em !important;
+    }
+
+    .riddle-link {
+      color: var(--green-soft);
+      text-decoration-color: var(--green);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.18em;
+    }
+
+    .riddle-link:hover, .riddle-link:focus-visible {
+      color: var(--green);
+      outline-color: var(--green);
     }
 
     .intro {
@@ -260,6 +272,21 @@
       object-fit: cover;
     }
 
+    .phase-bottom-visual {
+      width: min(100%, 720px);
+      margin: 36px auto 0;
+      border: 1px solid var(--line);
+      background: rgba(12, 17, 16, 0.9);
+      box-shadow: 0 0 24px rgba(92, 255, 145, 0.08);
+      overflow: hidden;
+    }
+
+    .phase-bottom-visual img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
     .riddle-audio {
       margin-top: 18px;
       padding: 16px;
@@ -306,7 +333,7 @@
 <body>
   <div class="shell">
     <header class="topbar">
-      <div class="brand"><img class="brand-mark" src="DarkX26%20Logo.png" alt="Logo DarkX26"> DARKX26</div>
+      <div class="brand"><img class="brand-mark" src=".trashed-1791826850-DarkX26%20Logo.png" alt="Logo DarkX26"> DARKX26</div>
       <div class="phase" id="phase-label"></div>
     </header>
 
@@ -341,6 +368,10 @@
           <div class="status-line"><span>status: <strong id="status">aguardando entrada</strong></span><span>tentativas: <strong id="attempts">0</strong></span><span id="history" hidden>fase 01: 0 | fase 02: 0 | fase 03: 0 | fase 04: 0 | fase 05: 0 | fase 06: 0</span></div>
         </div>
       </section>
+
+      <div class="phase-bottom-visual hidden" id="phase-bottom-visual" aria-live="polite">
+        <img id="phase-bottom-image" src="" alt="">
+      </div>
     </main>
   </div>
 
@@ -358,6 +389,8 @@
     const riddle = document.querySelector('#riddle');
     const riddleVisual = document.querySelector('#riddle-visual');
     const phaseImage = document.querySelector('#phase-image');
+    const phaseBottomVisual = document.querySelector('#phase-bottom-visual');
+    const phaseBottomImage = document.querySelector('#phase-bottom-image');
     const riddleAudioContainer = document.querySelector('#riddle-audio-container');
     const phaseAudio = document.querySelector('#phase-audio');
     const prompt = document.querySelector('#prompt');
@@ -390,7 +423,18 @@
       historyLabel.hidden = true;
       phaseLabel.textContent = phase.label;
       eyebrow.textContent = phase.eyebrow;
-      riddle.textContent = phase.riddle;
+      riddle.replaceChildren();
+      if (phase.riddleHref) {
+        const riddleLink = document.createElement('a');
+        riddleLink.className = 'riddle-link';
+        riddleLink.href = phase.riddleHref;
+        riddleLink.target = '_blank';
+        riddleLink.rel = 'noopener noreferrer';
+        riddleLink.textContent = phase.riddle;
+        riddle.append(riddleLink);
+      } else {
+        riddle.textContent = phase.riddle;
+      }
       riddle.classList.toggle('phase-3-large', phaseNumber === 3);
 
       if (phase.image) {
@@ -401,6 +445,16 @@
         riddleVisual.classList.add('hidden');
         phaseImage.src = '';
         phaseImage.alt = '';
+      }
+
+      if (phase.bottomImage) {
+        phaseBottomVisual.classList.remove('hidden');
+        phaseBottomImage.src = phase.bottomImage;
+        phaseBottomImage.alt = phase.bottomImageAlt || '';
+      } else {
+        phaseBottomVisual.classList.add('hidden');
+        phaseBottomImage.src = '';
+        phaseBottomImage.alt = '';
       }
 
       phaseAudio.pause();
@@ -451,6 +505,10 @@
         } else {
           historyLabel.hidden = false;
           answerInput.blur();
+          answerInput.disabled = true;
+          answerForm.querySelector('button[type="submit"]').disabled = true;
+          status.textContent = 'jogo concluído';
+          showFeedback('>> fase 10 concluída. Todos os enigmas disponíveis foram resolvidos.', 'success');
         }
         return;
       }
