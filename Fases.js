@@ -24,7 +24,7 @@ window.phaseData = {
 		command: 'decodificar',
 		commandHint: 'acesso concedido somente com a palavra original',
 		answer: 'desperta',
-		hint: 'a resposta pode ser uma mudança de estado ou uma citação.'
+		hint: 'Prof. Felipe Aquino'
 	},
 	4: {
 		label: 'arquivo // 04 de 26',
@@ -64,5 +64,25 @@ window.phaseData = {
 		commandHint: 'acesso concedido somente com a palavra original',
 		answer: 'violência',
 		hint: 'um link esconde muitas coisas.'
+	},
+	8: {
+		label: 'arquivo // 08 de 26',
+		eyebrow: 'oitavo contato',
+		riddle: 'Problens? - by: imago on nib',
+		bottomImage: 'imgs/Glifos Maias em Pedra Branca.png',
+		bottomImageAlt: 'Glifos maias gravados em pedra branca',
+		command: 'decodificar',
+		commandHint: 'acesso concedido somente com a palavra original',
+		answer: 'miséria',
+		hint: 'Post.'
+	},
+	9: {
+		label: 'arquivo // 09 de 26',
+		eyebrow: 'nono contato',
+		riddle: 'Fria',
+		command: 'decodificar',
+		commandHint: 'acesso concedido somente com a palavra original',
+		answer: 'guerra',
+		hint: 'pode ser númerada tambem.'
 	}
 };
