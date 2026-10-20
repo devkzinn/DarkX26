@@ -69,7 +69,7 @@ window.phaseData = {
 	8: {
 		label: 'arquivo // 08 de 26',
 		eyebrow: 'oitavo contato',
-		riddle: 'Problens? - by: imago on nib',
+		riddle: 'Problems? - by: imago on nib',
 		bottomImage: 'imgs/Glifos Maias em Pedra Branca.png',
 		bottomImageAlt: 'Glifos maias gravados em pedra branca',
 		command: 'decodificar',
